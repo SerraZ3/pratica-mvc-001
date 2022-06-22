@@ -3,6 +3,12 @@ const express = require("express");
 const router = express.Router();
 const productController = require("../controllers/ProductController");
 
+// http://localhost:3000/product/create
+router.get("/create", productController.create);
+
+// http://localhost:3000/product/1
+router.get("/:id", productController.show);
+
 // http://localhost:3000/product/
 router.get("/", productController.index);
 
