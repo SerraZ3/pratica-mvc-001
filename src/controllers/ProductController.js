@@ -82,16 +82,61 @@ const productController = {
   },
   // Cria produto
   // Não retorna página
-  store: (req, res) => {},
+  store: (req, res) => {
+    const { nome, descricao, preco, tamanho } = req.body;
+
+    if (!nome || !descricao || !preco || !tamanho) {
+      return res.render("product-create", {
+        title: "Criar produto",
+        error: {
+          message: "Preencha todos os campos!",
+        },
+      });
+    }
+    const newProduct = {
+      id: products.length + 1,
+      nome,
+      descricao,
+      preco,
+      tamanho,
+    };
+    products.push(newProduct);
+
+    return res.render("product-create", {
+      title: "Criar produto",
+      success: {
+        message: "Produto criado com sucesso!",
+      },
+    });
+  },
   // Página para editar produto
-  edit: (req, res) => {},
+  edit: (req, res) => {
+    // Essa variável é uma string
+    const { id } = req.params;
+    const productResult = products.find(
+      (product) =>
+        // A variável product.id é um number
+        // Se comparar um number com string nunca vai ser verdadeiro
+        product.id === parseInt(id)
+    );
+    if (!productResult) {
+      return res.render("error", {
+        title: "Error",
+        message: "Produto não encontrado",
+      });
+    }
+    return res.render("product-edit", {
+      title: "Editar produto",
+      product: productResult,
+    });
+  },
   // Edita produto
   // Não retorna página
   update: (req, res) => {},
-  // Deleta produto
-  // Não retorna página
+  // Paǵina para deletar o produto
   delete: (req, res) => {},
-  // O método acima pode ser chamado de destroy
-  // destroy: (req, res)=>{},
+  // Deleta o produto
+  // Não retorna página
+  destroy: (req, res) => {},
 };
 module.exports = productController;

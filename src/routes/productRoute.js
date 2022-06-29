@@ -6,6 +6,12 @@ const productController = require("../controllers/ProductController");
 // http://localhost:3000/product/create
 router.get("/create", productController.create);
 
+// http://localhost:3000/product/create
+router.post("/create", productController.store);
+
+// http://localhost:3000/product/edit/1
+router.get("/edit/:id", productController.edit);
+
 // http://localhost:3000/product/1
 router.get("/:id", productController.show);
 

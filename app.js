@@ -15,6 +15,8 @@ app.set("view engine", "ejs");
 app.set("views", __dirname + "/src/views");
 // Converte "Body" da requisição para json (objeto)
 app.use(express.json());
+// Converte corpo do requisição para forma que o json aceita
+app.use(express.urlencoded({ extended: false }));
 
 app.use("/product", productRoute);
 
