@@ -6,6 +6,8 @@ const app = express();
 const port = 3000;
 // Atribui conteúdo do productRoute a variável
 const productRoute = require("./src/routes/productRoute");
+// Importa pacote method override
+const methodOverride = require("method-override");
 
 // Configuração para acessar externamente conteúdo de uma pasta
 app.use(express.static(__dirname + "/public"));
@@ -13,6 +15,8 @@ app.use(express.static(__dirname + "/public"));
 app.set("view engine", "ejs");
 // Altera configuração inicial do express do caminho do views para o nosso caminho de arquivos
 app.set("views", __dirname + "/src/views");
+// Configura a chave do methodOverride
+app.use(methodOverride("_method"));
 // Converte "Body" da requisição para json (objeto)
 app.use(express.json());
 // Converte corpo do requisição para forma que o json aceita

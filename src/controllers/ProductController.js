@@ -132,11 +132,65 @@ const productController = {
   },
   // Edita produto
   // Não retorna página
-  update: (req, res) => {},
+  update: (req, res) => {
+    const { id } = req.params;
+    const { nome, descricao, preco, tamanho } = req.body;
+    const productResult = products.find(
+      (product) => product.id === parseInt(id)
+    );
+    if (!productResult) {
+      return res.render("error", {
+        title: "Erro",
+        message: "Erro ao encontrar produto",
+      });
+    }
+    if (nome) productResult.nome = nome;
+    if (descricao) productResult.descricao = descricao;
+    if (preco) productResult.preco = preco;
+    if (tamanho) productResult.tamanho = tamanho;
+
+    return res.render("success", {
+      title: "Produto atualizado",
+      message: "Produto atualizado com sucesso!",
+    });
+  },
   // Paǵina para deletar o produto
-  delete: (req, res) => {},
+  delete: (req, res) => {
+    const { id } = req.params;
+    const productResult = products.find(
+      (product) => product.id === parseInt(id)
+    );
+    // const productResult = products.find(product => product.id.toString() === id)
+
+    if (!productResult) {
+      return res.render("error", {
+        title: "Erro",
+        message: "Erro ao encontrar produto",
+      });
+    } 
+    return res.render("product-delete", {
+      title: "Deletar produto",
+      product: productResult,
+    });
+  },
   // Deleta o produto
   // Não retorna página
-  destroy: (req, res) => {},
+  destroy: (req, res) => {
+    const { id } = req.params;
+    const result = products.findIndex((product) => product.id === parseInt(id));
+
+    if (result === -1) {
+      return res.render("error", {
+        title: "Erro",
+        message: "Erro ao encontrar produto",
+      });
+    }
+    // Apaga posição do produto no array
+    products.splice(result, 1);
+    return res.render("success", {
+      title: "Produto deletado",
+      message: "Produto deletado com sucesso",
+    });
+  },
 };
 module.exports = productController;
